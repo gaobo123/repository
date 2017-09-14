@@ -1,0 +1,4 @@
+两个文件夹，一个是webservice通过CXF发布的服务端，一个是客户端，可以直接导入到myeclipse中，将服务端代码发布到Tomcat中执行，
+在浏览器上输入：http://localhost:8080/WebService_CXF_Spring_Tomcat_Server_1/ws/sayHello?wsdl就能看到webservice得wsdl描述。
+将客户端的main方法在控制台执行，能看到输出，就说明客户端调用成功。
+如果有安装soapUI，可以通过它来访问，地址也为：http://localhost:8080/WebService_CXF_Spring_Tomcat_Server_1/ws/sayHello?wsdl
