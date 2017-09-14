@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="WebService_CXF_Spring_Tomcat_Client_1"
+  id="myeclipse.1486563962440"
+  context-root="/WebService_CXF_Spring_Tomcat_Client_1"
+  j2ee-spec="6.0"
+  archive="WebService_CXF_Spring_Tomcat_Client_1.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+
