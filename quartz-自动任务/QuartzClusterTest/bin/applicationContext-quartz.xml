@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
+	default-lazy-init="false" default-autowire="byName">
+
+	<!-- 自定义的Job -->
+	<bean id="custService" class="com.zoneland.quartz.core.CustService" />
+	<bean id="myBusiJob" class="com.zoneland.quartz.core.MyBusiJob">
+		<property name="custService" ref="custService" />
+	</bean>
+
+	<!-- 引导Job -->
+	<bean id="bootstrapJob" class="com.zoneland.quartz.support.BootstrapJob">
+		<property name="targetJob" value="myBusiJob" />
+	</bean>
+	<!-- 重写了 MethodInvokingJobDetailFactoryBean调度类-->
+	<bean id="defaultJobDetail" class="com.zoneland.quartz.support.MethodInvokingJobDetailFactoryBean">
+		<property name="concurrent" value="true" />
+		<property name="targetObject" ref="bootstrapJob" />
+	</bean>
+	
+	<bean id="cronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="defaultJobDetail" />
+		<property name="cronExpression" value="0/3 * * * * ? *" />
+	</bean>
+
+	<!-- 数据源配置，这里采用quartz 与 Spring 共用数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<property name="username" value="quartz" />
+		<property name="password" value="1" />
+		<property name="maxActive" value="5" />
+	</bean>
+	
+	<!-- 配置quartz工厂类 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:quartz.properties" />
+		<property name="triggers">
+			<list>
+				<ref bean="cronTriggerBean" />
+			</list>
+		</property>
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+	</bean>
+
+</beans>
