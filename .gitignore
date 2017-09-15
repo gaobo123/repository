@@ -2,3 +2,6 @@
 *.java
 quartz-自动任务/QuartzClusterTest/.classpath
 quartz-自动任务/QuartzClusterTest/bin/log4j.xml
+quartz-自动任务/readme.txt
+*.txt
+quartz-自动任务/readme.txt
